@@ -43,12 +43,12 @@ export default function Header() {
   const count = getCartCount();
 
   return (
-    <header className="bg-white border-b border-gray-100 sticky top-0 z-50 backdrop-blur-md bg-white/80">
+    <header className="bg-white/80 border-b border-gray-100 sticky top-0 z-50 backdrop-blur-md bg-white/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
         {/* Logo / Nom de la boutique */}
         <Link href="/" className="text-xl font-bold text-gray-900 tracking-tight hover:text-blue-600 transition-colors">
-          MonEcom<span className="text-blue-600">.</span>
+         TechStore<span className="text-blue-600">.</span>
         </Link>
 
         {/* Navigation */}

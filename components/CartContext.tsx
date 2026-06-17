@@ -1,7 +1,7 @@
-// src/components/CartContext.tsx
+
 'use client';
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { CartItem } from '@/types/CartItem';
 import { Product } from '@/types/Product';
 
@@ -14,16 +14,40 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: ReactNode }) {
+  // 1. On initialise le useState avec un tableau vide au départ
   const [cart, setCart] = useState<CartItem[]>([]);
 
-  // Fonction pour ajouter un produit au panier
+  // 2. Premier useEffect : Se déclenche UNE SEULE fois au chargement du composant
+  // Il va chercher si un panier existe déjà dans le localStorage du navigateur
+  useEffect(() => {
+    const savedCart = localStorage.getItem('mon_panier');
+    if (savedCart) {
+      try {
+        setCart(JSON.parse(savedCart));
+      } catch (error) {
+        console.error("Erreur lors de la lecture du panier depuis le localStorage", error);
+      }
+    }
+  }, []);
+
+  // 3. Deuxième useEffect : Se déclenche à CHAQUE fois que la variable 'cart' change
+  // Il sauvegarde automatiquement la nouvelle version du panier dans le localStorage
+  useEffect(() => {
+    // On met une condition pour éviter d'écraser le localStorage au tout premier rendu 
+    // avant que le premier useEffect n'ait eu le temps de lire les données sauvegardées.
+    if (cart.length > 0) {
+      localStorage.setItem('mon_panier', JSON.stringify(cart));
+    } else if (cart.length === 0 && localStorage.getItem('mon_panier')) {
+      // Si le panier devient volontairement vide, on nettoie le localStorage
+      localStorage.removeItem('mon_panier');
+    }
+  }, [cart]);
+
   const addToCart = (product: Product) => {
     setCart((prevCart) => {
-      // 1. Vérifier si le produit est déjà dans le panier
       const existingItem = prevCart.find((item) => item.id === product.id);
 
       if (existingItem) {
-        // 2. Si oui, on incrémente sa quantité
         return prevCart.map((item) =>
           item.id === product.id
             ? { ...item, quantity: item.quantity + 1 }
@@ -31,7 +55,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
         );
       }
 
-      // 3. Si non, on l'ajoute avec une quantité initiale de 1
       return [
         ...prevCart,
         {
@@ -45,7 +68,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
     });
   };
 
-  // Fonction utilitaire pour calculer le nombre total d'articles (pour le Header)
   const getCartCount = () => {
     return cart.reduce((total, item) => total + item.quantity, 0);
   };
@@ -57,7 +79,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
   );
 }
 
-// Hook personnalisé pour utiliser le panier facilement
 export function useCart() {
   const context = useContext(CartContext);
   if (!context) {
