@@ -57,7 +57,7 @@ export const products:Product[]=[
     categorie: "Laptop"
   },
 
-  // --- AUDIO ---
+
   {
     id: 7,
     name: "Sony WH-1000XM5",
@@ -77,7 +77,7 @@ export const products:Product[]=[
     categorie: "Audio"
   },
 
-  // --- GAMING ---
+ 
   {
     id: 10,
     name: "PlayStation 5 Slim",
@@ -97,7 +97,7 @@ export const products:Product[]=[
     categorie: "Gaming"
   },
 
-  // --- ACCESSOIRES ---
+ 
   {
     id: 12,
     name: "Apple Watch Series 10",
