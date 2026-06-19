@@ -31,12 +31,12 @@ export const products:Product[]=[
   },
 {
      id: 4,
-    name: "Sony WH-1000XM5",
-    slug: "sony-headphones",
-    price: 3000,
-    image: "/Sony Headphones.webp",
-    description: "Le casque Sony WH-1000XM5 redéfinit l'écoute sans fil avec sa réduction de bruit active de classe mondiale. Équipé de deux processeurs et de huit micros, il isole parfaitement des bruits extérieurs. Profitez d'un confort exceptionnel, d'une qualité d'appel cristalline et d'une autonomie de 30 heures.",
-    categorie: "Audio"
+    name: "Apple Watch Series 10",
+    slug: "apple-watch",
+    price: 5000,
+    image: "/Applewatch.jpg",
+    description: "Suivez votre santé et restez connecté avec style.",
+    categorie: "Montre"
 }
 
 ]
